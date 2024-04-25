@@ -64,6 +64,12 @@ class AreasOfWorkListAPIView(APIView):
         serializer = PagesSerializer(items, many=True, context={'request': request})
         return Response(serializer.data)
 
+class PartnershipListAPIView(APIView):
+    def get(self, request):
+        items = Pages.objects.filter(category_id=5).order_by('-id')
+        serializer = PagesSerializer(items, many=True, context={'request': request})
+        return Response(serializer.data)
+
 
 class HomePageAPIView(generics.ListAPIView):
     serializer_class = NewsSerializer
