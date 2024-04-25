@@ -15,7 +15,7 @@ class LoginAPIView(TokenObtainPairView):
 
 
 class UserRegisterView(APIView):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAdminUser]
 
     def post(self, request):
         serializer = UserSerializer(data=request.data)

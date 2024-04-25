@@ -1,4 +1,5 @@
 from django.contrib import admin
+from modeltranslation.admin import TranslationAdmin
 
 from apps.gallery.models import (GalleryImages, ClassLesson)
 
@@ -24,7 +25,7 @@ class GalleryAdmin(admin.ModelAdmin):
 
 
 @admin.register(ClassLesson)
-class ClassLessonAdmin(admin.ModelAdmin):
+class ClassLessonAdmin(TranslationAdmin):
     list_display = (
         'id',
         'title',
@@ -41,3 +42,15 @@ class ClassLessonAdmin(admin.ModelAdmin):
         'id',
         'title',
     )
+
+    class Media:
+        js = (
+            'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',
+            'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js',
+            'modeltranslation/js/tabbed_translation_fields.js',
+        )
+        css = {
+            'screen': ('modeltranslation/css/tabbed_translation_fields.css',),
+        }
+
+

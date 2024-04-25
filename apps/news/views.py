@@ -4,20 +4,22 @@ from rest_framework.views import APIView
 from django.utils.translation import get_language
 
 
-from apps.news.models import News, Numbers, Files, Pages
+from apps.news.models import News, Numbers, Files, Pages, AdmissionStudents
 from apps.news.serializers import (NewsSerializer,
                                    NumbersSerializer,
                                    FilesSerializer,
-                                   PagesSerializer, ContactSerializer)
+                                   PagesSerializer, 
+                                   ContactSerializer,
+                                   AdmissionStudentsSerializer)
 
 
 class NewsListAPIView(generics.ListAPIView):
-    queryset = News.objects.all()
-    permissions = [permissions.AllowAny]
+    queryset = News.objects.all().order_by('-created_date')
+    permission_classes = [permissions.AllowAny]
     serializer_class = NewsSerializer
 
 
-class СontactAPIView(APIView):
+class ContactAPIView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = ContactSerializer(data=request.data)
         if serializer.is_valid():
@@ -31,7 +33,7 @@ class FilesAPIView(APIView):
     permission_classes = [permissions.IsAdminUser]
 
     def get(self, request):
-        files = Files.objects.all()
+        files = Files.objects.all().order_by('-id')
         serializer = FilesSerializer(files, many=True)
         return Response(serializer.data)
 
@@ -39,21 +41,27 @@ class FilesAPIView(APIView):
 class AboutUsItemsAPIView(APIView):
     def get(self, request):
         items = Pages.objects.filter(category_id=1)
-        serializer = PagesSerializer(items, many=True)
+        serializer = PagesSerializer(items, many=True,  context={'request': request})
         return Response(serializer.data)
 
 
 class VolunteeringListAPIView(APIView):
     def get(self, request):
-        items = Pages.objects.filter(category_id=3)
-        serializer = PagesSerializer(items, many=True)
+        items = Pages.objects.filter(category_id=3).order_by('-id')
+        serializer = PagesSerializer(items, many=True, context={'request': request})
         return Response(serializer.data)
 
 
 class OtherSchoolEventsListAPIView(APIView):
     def get(self, request):
-        items = Pages.objects.filter(category_id=2)
-        serializer = PagesSerializer(items, many=True)
+        items = Pages.objects.filter(category_id=2).order_by('-id')
+        serializer = PagesSerializer(items, many=True, context={'request': request})
+        return Response(serializer.data)
+    
+class AreasOfWorkListAPIView(APIView):
+    def get(self, request):
+        items = Pages.objects.filter(category_id=4).order_by('-id')
+        serializer = PagesSerializer(items, many=True, context={'request': request})
         return Response(serializer.data)
 
 
@@ -69,3 +77,9 @@ class NewsDetailAPIView(generics.RetrieveAPIView):
     queryset = News.objects.all()
     serializer_class = NewsSerializer
     
+
+
+class AdmissionStudentsListAPIView(generics.ListAPIView):
+    queryset = AdmissionStudents.objects.all()
+    serializer_class = AdmissionStudentsSerializer
+    permission_classes = [permissions.AllowAny]

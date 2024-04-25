@@ -14,11 +14,13 @@ class GalleryImages(models.Model):
 
 
 class ClassLesson(models.Model):
+    title_head = models.CharField(max_length=255, verbose_name='Верхнее название') 
+    text = models.TextField(verbose_name='Текст')
     title = models.CharField(max_length=255, verbose_name='Название')
-    image = models.ImageField(upload_to='media/class_lessons/', verbose_name='Изображение')
+    image = models.FileField(upload_to='media/class_lessons/', verbose_name='Файл')
 
     class Meta:
-        verbose_name = 'Уроки'
+        verbose_name = 'Кружки'
         verbose_name_plural = verbose_name
 
     def __str__(self):

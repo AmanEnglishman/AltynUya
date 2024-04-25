@@ -1,5 +1,6 @@
 from ckeditor.fields import RichTextField
 from django.db import models
+from django.utils.html import strip_tags
 
 from apps.news.models import Numbers
 
@@ -57,6 +58,13 @@ class Contingent(models.Model):
     def __str__(self):
         return self.name
 
+
+    def save(self, *args, **kwargs):
+        self.text = strip_tags(self.text)  # Очищаем текст от HTML-тегов перед сохранением
+        super().save(*args, **kwargs)
+
     class Meta:
         verbose_name = 'Контингент'
         verbose_name_plural = verbose_name
+
+    

@@ -11,6 +11,6 @@ class ClassLessonAPIView(generics.ListAPIView):
 
 
 class GalleryAPIView(generics.ListAPIView):
-    queryset = GalleryImages.objects.all()
-    permissions = [permissions.AllowAny]
+    queryset = GalleryImages.objects.all().order_by('-id')
+    permission_classes = [permissions.AllowAny]  
     serializer_class = GallerySerializer
