@@ -3,6 +3,8 @@ from apps.user.models import User
 from django.utils import timezone
 from ckeditor.fields import RichTextField
 from django.utils.html import strip_tags
+from django.http import HttpResponse
+from .services import send_mail
 
 
 
@@ -99,6 +101,10 @@ class Contact(models.Model):
     email = models.EmailField()
     phone = models.CharField(max_length=20)
     message = models.TextField()
+
+    def save(self, *args, **kwargs):
+        send_mail(self)
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         return self.full_name

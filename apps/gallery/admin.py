@@ -1,5 +1,6 @@
 from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin
+from django.utils.safestring import mark_safe
 
 from apps.gallery.models import (GalleryImages, ClassLesson)
 
@@ -8,20 +9,26 @@ from apps.gallery.models import (GalleryImages, ClassLesson)
 class GalleryAdmin(admin.ModelAdmin):
     list_display = (
         'id',
-        'image',
+        'title',
+        'html_image',
     )
     list_display_links = (
         'id',
-        'image',
+        'title',
+        'html_image',
     )
     list_filter = (
-        'id',
-        'image',
+        'title',
     )
     search_fields = (
         'id',
-        'image',
+        'title',
     )
+    
+    def html_image(self, object):
+        if object.image:
+            return mark_safe(f"<img src='{object.image.url}' width='130'>")
+
 
 
 @admin.register(ClassLesson)
