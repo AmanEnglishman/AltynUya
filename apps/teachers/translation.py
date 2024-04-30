@@ -16,7 +16,7 @@ class VacancyTranslationOptions(TranslationOptions):
 
 
 class ContingentTranslationOptional(TranslationOptions):
-    fields = ('description',)
+    fields = ('text',)
 
 
 translator.register(Qualification, QualificationTranslationOptions)

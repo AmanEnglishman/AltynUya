@@ -5,7 +5,7 @@ from django.conf import settings
 
 
 def send_mail(instance):
-    to_email = 'englishmanaman@gmail.com'
+    to_email = 'altynuya.shk21@gmail.com'
     subject = instance.email
     message = f"{instance.full_name}\n{instance.phone}\n{instance.message}"
 

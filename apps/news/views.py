@@ -37,6 +37,22 @@ class FilesAPIView(APIView):
         serializer = FilesSerializer(files, many=True)
         return Response(serializer.data)
 
+    def post(self, request):
+        serializer = FilesSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request):
+        try:
+            file_id = request.data.get('id')
+            file_instance = Files.objects.get(id=file_id)
+            file_instance.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Files.DoesNotExist:
+            return Response({"error": "File does not exist."}, status=status.HTTP_404_NOT_FOUND)
+
 
 class AboutUsItemsAPIView(APIView):
     def get(self, request):

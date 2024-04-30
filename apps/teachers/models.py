@@ -51,7 +51,7 @@ class Qualification(models.Model):
 class Contingent(models.Model):
     name = models.CharField(max_length=100, verbose_name='Имя')
     surname = models.CharField(max_length=100, verbose_name='Фамилия')
-    description = RichTextField(verbose_name='Текст')
+    text = RichTextField(verbose_name='Текст')
     image = models.ImageField(upload_to='media/contingent/', verbose_name='Фотография')
     grade = models.CharField(max_length=100, verbose_name='Класс')
 
