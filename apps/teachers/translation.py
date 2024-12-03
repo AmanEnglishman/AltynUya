@@ -10,14 +10,13 @@ class TeacherTranslationOptions(TranslationOptions):
     fields = ('job_title',)
 
 
-
 class VacancyTranslationOptions(TranslationOptions):
     fields = ('job_title', 'duty', 'requirements', 'conditions')
 
 
 class ContingentTranslationOptional(TranslationOptions):
     fields = ('text',)
-
+    
 
 translator.register(Qualification, QualificationTranslationOptions)
 translator.register(Teacher, TeacherTranslationOptions)
